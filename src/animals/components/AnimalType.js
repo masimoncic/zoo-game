@@ -7,13 +7,15 @@ class AnimalType extends Component{
   render() {
     let animals = [];
     for (let i = 0; i < this.props.info.quantity; i++) {
-      animals.push(<Animal type={this.props.info.type} number={i + 1}/>)
+      animals.push(`${this.props.info.type} ${i + 1}`)
     }
     return(
-      <div className="AnimalType">
-        <p>Animal: {this.props.info.type}</p>
-        <p>Quantity: {this.props.info.quantity}</p>
-        {animals}
+      <div className="AnimalType row mb-2">
+        {animals.map(animal =>
+          <div className='col-4 col-md-2'>
+            <Animal name={animal} />
+          </div>
+          )}
       </div>
     )
   }
