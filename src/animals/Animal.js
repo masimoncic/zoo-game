@@ -14,10 +14,13 @@ class Animal extends Component{
             <button className='btn btn-sm btn-secondary'>Rename</button>
           </div>
         </div>
-          <div className='animalFoodMeter'>
-            <span>{this.props.info.hungerMeter}</span>
-          </div> 
-          <button className='btn btn-info mb-1'>Feed</button>
+        <div className='animalPicture'>
+          <span>placeholder for picture</span>
+        </div>
+        <div className='animalFoodMeter'>
+          <span>{this.props.info.hungerMeter}</span>
+        </div> 
+        <button className='btn btn-info mb-1'>Feed</button>
       </div>
     )
   }
