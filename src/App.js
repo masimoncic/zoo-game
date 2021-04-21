@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Zoo from './main/components/Zoo';
+import Zoo from './main/Zoo';
 
 class App extends Component{
   render() {

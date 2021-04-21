@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../styles/MainDisplay.css';
+import './MainDisplay.css';
 import MenuSelect from './MenuSelect';
 
 
@@ -10,7 +10,9 @@ class MainDisplay extends Component{
         <p className='text-center'>-------------------------------------------------------------------</p>
         <br /> <br />
         <p>MainDisplay</p>
-        <p>Placeholder</p> <br /> <br />
+        <p>Money: {this.props.money}</p> 
+        <p>Income: {this.props.income}</p>
+        <br /> <br />
         <p className='text-center'>-------------------------------------------------------------------</p>
         <MenuSelect />
       </div>
