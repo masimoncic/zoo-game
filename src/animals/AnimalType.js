@@ -14,7 +14,7 @@ class AnimalType extends Component {
   render() {
     return(
       <div className='AnimalType col-4 col-md'>
-        <Link to={`/animals/${this.props.type}`}> {this.props.type}s </Link>
+        <Link to={`/animals/${this.props.type}`}> {this.props.type} </Link>
         <div className='mb-1'>
           <span>Owned: placeholder</span>
         </div>

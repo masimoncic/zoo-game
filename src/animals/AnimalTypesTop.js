@@ -10,7 +10,7 @@ class AnimalTypesTop extends Component{
   render() {
     let animalTypes = [];
     for (let animal in this.props.animals) {
-      animalTypes.push(<AnimalType type={this.props.animals[animal].type} buyAnimal={this.props.buyAnimal} /> )
+      animalTypes.push(<AnimalType type={animal} buyAnimal={this.props.buyAnimal} /> )
     }
     return(
       <div className="AnimalTypesTop row mb-3">

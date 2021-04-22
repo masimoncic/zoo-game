@@ -25,6 +25,7 @@ class Zoo extends Component{
       ]*/
   
       //try to remove 'type'
+      /*
       animals: {
         tiger: {type: 'tiger', individuals: [{name: 'tiger1', hungerMeter: 70}]},
         penguine: {type: 'penguine', individuals: []},
@@ -32,16 +33,15 @@ class Zoo extends Component{
         panda: {type: 'panda', individuals: []},
         chimpanzee: {type: 'chimpanzee', individuals: []},
         aligator: {type: 'aligator', individuals: []}
+      },*/
+      animals: {
+        tigers: [{name: 'tiger1', hungerMeter: 65}],
+        penguines: [],
+        elephants: [],
+        pandas: [],
+        chimpanzees: [],
+        aligators: [],
       },
-
-    
-       /*
-       tiger: [{name: 'tiger1', hungerMeter: 65}],
-       penguine: [],
-       elephant: [],
-       panda: [],
-       chimpanzee: [],
-       */
       money: 1000,
       income: 100,
     }
@@ -50,7 +50,7 @@ class Zoo extends Component{
   static defaultProps = {
     //put types in default props, qty and individuals in state
     animalTypes: {
-      tiger: {
+      tigers: {
         foodConsumption: 20,
         hungerIncreaseRate: 4,
         hungerDecreasePerFeed: 40,
@@ -70,8 +70,8 @@ class Zoo extends Component{
   render() {
     const getAnimalType = props => {
       let animal = props.match.params.animal;
-      let currentAnimal = this.state.animals[animal];
-      return <AnimalContainer info={currentAnimal} />
+      let individuals = this.state.animals[animal];
+      return <AnimalContainer animal={animal} individuals={individuals} />
     }
     return(
       <div className="Zoo">
