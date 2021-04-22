@@ -24,7 +24,7 @@ class Zoo extends Component{
         {type: 'aligator', individuals: []}
       ]*/
   
-              //try to remove 'type'
+      //try to remove 'type'
       animals: {
         tiger: {type: 'tiger', individuals: [{name: 'tiger1', hungerMeter: 70}]},
         penguine: {type: 'penguine', individuals: []},
@@ -63,14 +63,7 @@ class Zoo extends Component{
     const newIndividuals = [...this.state.animals[a].individuals, {name:`new type is ${a}`, hungerMeter:'70'}]
     this.setState({
       //redo this
-      animals: {
-        tiger: {type: 'tiger', individuals: newIndividuals},
-        penguine: {type: 'penguine', individuals: []},
-        elephant: {type: 'elephant', individuals: []},
-        panda: {type: 'panda', individuals: []},
-        chimpanzee: {type: 'chimpanzee', individuals: []},
-        aligator: {type: 'aligator', individuals: []}
-      }
+      //animals:  
     })
   }
   //pass animalTypes to AnimalTypesTop
