@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import './AnimalType.css';
+import './Species.css';
 
 
-class AnimalType extends Component {
+class Species extends Component {
   constructor(props) {
     super(props);
     this.handleBuyAnimal = this.handleBuyAnimal.bind(this);
   }
   handleBuyAnimal() {
-    this.props.buyAnimal(this.props.type);
+    this.props.buyAnimal(this.props.species);
   }
   render() {
     return(
-      <div className='AnimalType col-4 col-md'>
-        <Link to={`/animals/${this.props.type}`}> {this.props.type} </Link>
+      <div className='Species col-4 col-md'>
+        <Link to={`/animals/${this.props.species}`}> {this.props.species} </Link>
         <div className='mb-1'>
           <span>Owned: placeholder</span>
         </div>
@@ -29,4 +29,4 @@ class AnimalType extends Component {
   }
 }
 
-export default AnimalType;
+export default Species;

@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
-import './Animal.css';
+import './Individual.css';
 
 
-class Animal extends Component{
+class Individual extends Component{
   render() {
     return(
-      <div className="Animal my-2">
+      <div className="Individual my-2">
         <div className='row'>
-          <div className='animalName'>
+          <div className='individualName'>
             <span>{this.props.info.name}</span>
           </div>
-          <div className='changeAnimalName'>
+          <div className='changeIndividualName'>
             <button className='btn btn-sm btn-secondary'>Rename</button>
           </div>
         </div>
-        <div className='animalPicture'>
+        <div className='individualPicture'>
           <span>placeholder for picture</span>
         </div>
-        <div className='animalFoodMeter'>
+        <div className='individualFoodMeter'>
           <span>{this.props.info.hungerMeter}</span>
         </div> 
         <button className='btn btn-info mb-1'>Feed</button>
@@ -26,4 +26,4 @@ class Animal extends Component{
   }
 }
 
-export default Animal;
+export default Individual;
