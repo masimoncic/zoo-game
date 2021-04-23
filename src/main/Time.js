@@ -9,15 +9,19 @@ class Time extends Component {
       peroid: 'a.m.',
       day: 1,
     }
+    this.getTime = this.getTime.bind(this);
     this.timer = this.timer.bind(this);
     this.handleSlow = this.handleSlow.bind(this);
+    this.handleMedium = this.handleMedium.bind(this);
+    this.handleFast = this.handleFast.bind(this);
   }
   componentDidMount() {
-    setInterval(() => {
-      this.timer();
-    }, 400)
+    this.intervalId = setInterval(this.timer, 1200)
   }
-  setTime(st) {
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+  }
+  getTime(st) {
     let newHour = st.hour +1;
     let newPeroid = st.peroid;
     let newDay = st.day;
@@ -36,20 +40,23 @@ class Time extends Component {
     return { hour: newHour, peroid: newPeroid, day: newDay};
   }
   timer() {
-      this.setState(this.setTime);
-      console.log('tick');
-      if (this.state.hour === 12 && this.state.peroid === 'a.m.') {
-        this.props.setMoney();
-      }
+    let time = this.getTime(this.state);
+    if (time.hour === 12 && time.peroid === 'a.m.') {
+      this.props.setMoney();
+    }
+    this.setState(time);
   }
   handleSlow() {
-    clearInterval(this.state.timerId);
-    let timerId = setInterval(() => {
-      this.timer();
-    })
-    this.setState(st => {
-      return {timerId: timerId}
-    })
+    clearInterval(this.intervalId);
+    this.intervalId = setInterval(this.timer, 800)
+  }
+  handleMedium() {
+    clearInterval(this.intervalId);
+    this.intervalId = setInterval(this.timer, 400)
+  }
+  handleFast() {
+    clearInterval(this.intervalId);
+    this.intervalId = setInterval(this.timer, 100)
   }
   render() {
     return(
@@ -60,10 +67,10 @@ class Time extends Component {
             <button className="btn btn-secondary" onClick={this.handleSlow}>Slow</button>
           </div>
           <div className='offset-1 col-8 col-lg-4 offset-lg-0'>
-            <button className="btn btn-secondary">Medium</button>  
+            <button className="btn btn-secondary" onClick={this.handleMedium}>Medium</button>  
           </div>
           <div className='offset-1 col-8 col-lg-4 offset-lg-0'>
-            <button className="btn btn-secondary">Fast</button>
+            <button className="btn btn-secondary" onClick={this.handleFast}>Fast</button>
           </div>
         </div>
         <div className="display-time mt-2">

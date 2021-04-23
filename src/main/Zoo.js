@@ -49,6 +49,7 @@ class Zoo extends Component{
     }
     this.buyAnimal = this.buyAnimal.bind(this);
     this.setMoney = this.setMoney.bind(this);
+
     this.setIncome = this.setIncome.bind(this);
   }
   static defaultProps = {
@@ -98,12 +99,10 @@ class Zoo extends Component{
       },
     }
   }
-  calculateMoney(st){
-    let newMoney = st.money + st.income;
-    return { money: newMoney }
-  }
   setMoney() {
-    this.setState(this.calculateMoney);
+    this.setState(st => {
+      return { money : st.money + st.income}
+    });
   }
   calculateIncome(st) {
     let newIncome = st.income;

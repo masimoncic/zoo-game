@@ -2,18 +2,20 @@ import React, { Component } from 'react';
 import './MainDisplay.css';
 import MenuSelect from './MenuSelect';
 import Time from './Time';
+import Money from './Money';
+
 
 class MainDisplay extends Component{
-  constructor(props){
+  /*constructor(props){
     super(props);
     this.state = {
       hour: 5,
       peroid: 'a.m.',
       day: 1,
     }
-    this.timer = this.timer.bind(this);
-  }
-  componentDidMount() {
+    //this.timer = this.timer.bind(this);
+  }*/
+  /*componentDidMount() {
     this.timer(300);
   }
   setTime(st) {
@@ -42,7 +44,7 @@ class MainDisplay extends Component{
         this.props.setMoney();
       }
     }, ms)
-  }
+  }*/
   render() {
     return(
       <div className="MainDisplay mt-3">
@@ -54,10 +56,11 @@ class MainDisplay extends Component{
           <p>MainDisplay</p>
         </div>
         <div className="col-3 food-and-money">
-          <p>Money: {this.props.money}</p> 
-          <p>Income: {this.props.income}</p>
-          <p>Food Owned: {this.props.foodQty}</p>
-          <p>Food Cost: {this.props.foodCost}</p>
+          <Money
+          money={this.props.money}
+          income={this.props.income}
+          foodQty={this.props.foodQty}
+          foodCost={this.props.foodCost} />
         </div>
       </div>
         <MenuSelect />
