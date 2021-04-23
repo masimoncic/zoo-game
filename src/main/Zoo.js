@@ -36,16 +36,20 @@ class Zoo extends Component{
       },*/
       animals: {
         tigers: [{name: 'tiger', hungerMeter: 65}],
-        penguines: [],
-        elephants: [],
-        pandas: [],
-        chimpanzees: [],
-        aligators: [],
+        penguines: [{name: 'tiger', hungerMeter: 65}],
+        elephants: [{name: 'tiger', hungerMeter: 65}],
+        pandas: [{name: 'tiger', hungerMeter: 65}],
+        chimpanzees: [{name: 'tiger', hungerMeter: 65}],
+        aligators: [{name: 'tiger', hungerMeter: 65}],
       },
       money: 1000,
       income: 100,
+      foodQty: 100,
+      foodCost: 200,
     }
     this.buyAnimal = this.buyAnimal.bind(this);
+    this.setMoney = this.setMoney.bind(this);
+    this.setIncome = this.setIncome.bind(this);
   }
   static defaultProps = {
     //put types in default props, qty and individuals in state
@@ -55,22 +59,65 @@ class Zoo extends Component{
         hungerIncreaseRate: 4,
         hungerDecreasePerFeed: 40,
         price: 300,
-      }
+        value: 100,
+      },
+      penguines: {
+        foodConsumption: 20,
+        hungerIncreaseRate: 4,
+        hungerDecreasePerFeed: 40,
+        price: 300,
+        value: 100,
+      },
+      elephants: {
+        foodConsumption: 20,
+        hungerIncreaseRate: 4,
+        hungerDecreasePerFeed: 40,
+        price: 300,
+        value: 100,
+      },
+      pandas: {
+        foodConsumption: 20,
+        hungerIncreaseRate: 4,
+        hungerDecreasePerFeed: 40,
+        price: 300,
+        value: 100,
+      },
+      chimpanzees: {
+        foodConsumption: 20,
+        hungerIncreaseRate: 4,
+        hungerDecreasePerFeed: 40,
+        price: 300,
+        value: 100,
+      },
+      aligators: {
+        foodConsumption: 20,
+        hungerIncreaseRate: 4,
+        hungerDecreasePerFeed: 40,
+        price: 300,
+        value: 100,
+      },
     }
+  }
+  calculateMoney(st){
+    let newMoney = st.money + st.income;
+    return { money: newMoney }
+  }
+  setMoney() {
+    this.setState(this.calculateMoney);
+  }
+  calculateIncome(st) {
+    let newIncome = st.income;
+    return { income: newIncome }
+  }
+  setIncome(){
+    this.setState(this.calculateIncome);
   }
 
   buyAnimal(species) { 
     const newIndividuals = [...this.state.animals[species], {name:`new type is ${species.substr(0, species.length-1)}`, hungerMeter:'70'}]
     this.setState({
       //need animals[animal] = newIndividuals
-      animals: {
-        tigers: newIndividuals,
-        penguines: [],
-        elephants: [],
-        pandas: [],
-        chimpanzees: [],
-        aligators: [],
-      }
+
     })
   }
   //pass animalTypes to AnimalTypesTop
@@ -82,7 +129,13 @@ class Zoo extends Component{
     }
     return(
       <div className="Zoo">
-        <MainDisplay money={this.state.money} income={this.state.income}/>
+        <MainDisplay 
+        money={this.state.money} 
+        income={this.state.income} 
+        foodQty={this.state.foodQty} 
+        foodCost={this.state.foodCost}
+        setMoney={this.setMoney}
+        />
         <Route path='/animals' render={() => 
         <SpeciesContainer 
           animals={this.state.animals}
