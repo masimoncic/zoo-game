@@ -35,14 +35,14 @@ class Zoo extends Component{
         aligator: {type: 'aligator', individuals: []}
       },*/
       animals: {
-        tigers: [{name: 'tiger', hungerMeter: 65}],
-        penguines: [{name: 'tiger', hungerMeter: 65}],
-        elephants: [{name: 'tiger', hungerMeter: 65}],
-        pandas: [{name: 'tiger', hungerMeter: 65}],
-        chimpanzees: [{name: 'tiger', hungerMeter: 65}],
-        aligators: [{name: 'tiger', hungerMeter: 65}],
+        tigers: [],
+        penguines: [],
+        elephants: [],
+        pandas: [],
+        chimpanzees: [],
+        aligators: [],
       },
-      money: 1000,
+      money: 5000,
       income: 100,
       foodQty: 100,
       foodCost: 200,
@@ -53,46 +53,46 @@ class Zoo extends Component{
   }
   static defaultProps = {
     //put types in default props, qty and individuals in state
-    animalTypes: {
+    animalSpecies: {
       tigers: {
         foodConsumption: 20,
-        hungerIncreaseRate: 4,
-        hungerDecreasePerFeed: 40,
+        guageIncreaseRate: 4,
+        guageDecreasePerFeed: 40,
         price: 300,
         value: 100,
       },
       penguines: {
         foodConsumption: 20,
-        hungerIncreaseRate: 4,
-        hungerDecreasePerFeed: 40,
+        guageIncreaseRate: 4,
+        guageDecreasePerFeed: 40,
         price: 300,
         value: 100,
       },
       elephants: {
         foodConsumption: 20,
-        hungerIncreaseRate: 4,
-        hungerDecreasePerFeed: 40,
+        guageIncreaseRate: 4,
+        guageDecreasePerFeed: 40,
         price: 300,
         value: 100,
       },
       pandas: {
         foodConsumption: 20,
-        hungerIncreaseRate: 4,
-        hungerDecreasePerFeed: 40,
+        guageIncreaseRate: 4,
+        guageDecreasePerFeed: 40,
         price: 300,
         value: 100,
       },
       chimpanzees: {
         foodConsumption: 20,
-        hungerIncreaseRate: 4,
-        hungerDecreasePerFeed: 40,
+        guageIncreaseRate: 4,
+        guageDecreasePerFeed: 40,
         price: 300,
         value: 100,
       },
       aligators: {
         foodConsumption: 20,
-        hungerIncreaseRate: 4,
-        hungerDecreasePerFeed: 40,
+        guageIncreaseRate: 4,
+        guageDecreasePerFeed: 40,
         price: 300,
         value: 100,
       },
@@ -114,11 +114,19 @@ class Zoo extends Component{
   }
 
   buyAnimal(species) { 
-    const newIndividuals = [...this.state.animals[species], {name:`new type is ${species.substr(0, species.length-1)}`, hungerMeter:'70'}]
-    this.setState({
-      //need animals[animal] = newIndividuals
+    if (this.state.money >= this.props.animalSpecies[species].price) {
+      const newAnimals = {...this.state.animals}
+      const newIndividuals = [...this.state.animals[species], {name: species.substr(0, species.length-1), hungerMeter:'70'}]
+      newAnimals[species] = newIndividuals;
+      let newMoney = this.state.money - this.props.animalSpecies[species].price;
+      //newIncome = this.calculateIncome
+      this.setState({
+        animals: newAnimals,
+        money: newMoney,
+        //income: newIncome
+      })
+    }
 
-    })
   }
   //pass animalTypes to AnimalTypesTop
   render() {
@@ -140,6 +148,7 @@ class Zoo extends Component{
         <SpeciesContainer 
           animals={this.state.animals}
           buyAnimal={this.buyAnimal}
+          animalSpecies = {this.props.animalSpecies}
         />} />
         <Route path='/animals/:species' render={getAnimalSpecies} />
         <Route path='/construction' render={() => <ConstructionTop />} />

@@ -47,7 +47,6 @@ class MainDisplay extends Component{
     return(
       <div className="MainDisplay">
         <p className='text-center'>-------------------------------------------------------------------</p>
-        <br /> <br />
         <p>MainDisplay</p>
         <p>Money: {this.props.money}</p> 
         <p>Income: {this.props.income}</p>
@@ -55,7 +54,6 @@ class MainDisplay extends Component{
         <p>Food Cost: {this.props.foodCost}</p>
         <p>Time: {this.state.hour} {this.state.peroid}</p>
         <p>Day: {this.state.day}</p>
-        <br /> <br />
         <p className='text-center'>-------------------------------------------------------------------</p>
         <MenuSelect />
       </div>

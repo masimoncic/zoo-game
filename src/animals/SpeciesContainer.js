@@ -10,7 +10,12 @@ class SpeciesContainer extends Component{
   render() {
     let species = [];
     for (let animal in this.props.animals) {
-      species.push(<Species species={animal} buyAnimal={this.props.buyAnimal} /> )
+      species.push(
+      <Species
+        species={animal} 
+        buyAnimal={this.props.buyAnimal}
+        price={this.props.animalSpecies[animal].price}
+      /> )
     }
     return(
       <div className="SpeciesContainer row mb-3">

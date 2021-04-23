@@ -19,7 +19,7 @@ class Species extends Component {
           <span>Owned: placeholder</span>
         </div>
         <div className='row col-lg-8 offset-lg-2 col-10 offset-1'>
-          <button className='btn btn-success' onClick={this.handleBuyAnimal}>Buy</button>
+          <button className='btn btn-success btn-sm' onClick={this.handleBuyAnimal}>Buy ${this.props.price}</button>
         </div>
         <div className='mt-2 row col-lg-8 offset-lg-2 col-10 offset-1'>
           <button className='btn btn-info mb-4 feed-btn'>Feed all</button>
