@@ -1,0 +1,28 @@
+.speed-buttons .btn {
+  font-size: 0.8rem;
+  padding: 0.2rem;
+  margin-bottom: 0.2rem;
+  width: 100%;
+}
+
+
+@media (min-width: 992px) {
+  .speed-buttons .btn {
+  font-size: 0.7rem;
+  width: 165%;
+  }
+}
+@media (min-width: 1200px) {
+  .speed-buttons .btn {
+    font-size: 0.8rem;
+    width: 150%;
+    }
+}
+@media (min-width: 1400px) {
+  .speed-buttons .btn {
+    font-size: 0.9rem;
+    width: 130%;
+    }
+}
+
+

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './MainDisplay.css';
 import MenuSelect from './MenuSelect';
-
+import Time from './Time';
 
 class MainDisplay extends Component{
   constructor(props){
@@ -45,16 +45,21 @@ class MainDisplay extends Component{
   }
   render() {
     return(
-      <div className="MainDisplay">
-        <p className='text-center'>-------------------------------------------------------------------</p>
-        <p>MainDisplay</p>
-        <p>Money: {this.props.money}</p> 
-        <p>Income: {this.props.income}</p>
-        <p>Food Owned: {this.props.foodQty}</p>
-        <p>Food Cost: {this.props.foodCost}</p>
-        <p>Time: {this.state.hour} {this.state.peroid}</p>
-        <p>Day: {this.state.day}</p>
-        <p className='text-center'>-------------------------------------------------------------------</p>
+      <div className="MainDisplay mt-3">
+        <div className='row'>
+        <div className='col-3 col-lg-2'>
+          <Time setMoney = {this.props.setMoney} />
+        </div>
+        <div className='col-6 col-lg-5 offset-lg-1'>
+          <p>MainDisplay</p>
+        </div>
+        <div className="col-3 food-and-money">
+          <p>Money: {this.props.money}</p> 
+          <p>Income: {this.props.income}</p>
+          <p>Food Owned: {this.props.foodQty}</p>
+          <p>Food Cost: {this.props.foodCost}</p>
+        </div>
+      </div>
         <MenuSelect />
       </div>
     )
