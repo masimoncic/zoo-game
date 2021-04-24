@@ -11,6 +11,13 @@ class Individual extends Component{
     this.props.feedAnimal(this.props.info, this.props.species);
   }
   render() {
+    const meter = (alive) => {
+      if (alive){
+        return (<span>{this.props.info.hungerMeter}</span>);
+      } else {
+        return(<span>Dead</span>)
+      }
+    }
     return(
       <div className="Individual my-2">
         <div className='row'>
@@ -22,10 +29,12 @@ class Individual extends Component{
           </div>
         </div>
         <div className='individualPicture'>
-          <span>placeholder for picture</span>
+          {this.props.info.alive && 
+            <span>placeholder for picture</span>
+          }
         </div>
         <div className='individualFoodMeter'>
-          <span>{this.props.info.hungerMeter}</span>
+          {meter(this.props.info.alive)}
         </div> 
         <button className='btn btn-info mb-1' onClick={this.handleFeed}>Feed ({this.props.foodConsumption})</button>
       </div>

@@ -100,8 +100,18 @@ class Zoo extends Component{
     };
     for (let species in this.state.animals) {
       let decrease = this.props.speciesData[species].guageDecreaseRate;
-      let newSpecies = this.state.animals[species].map(individual => ({...individual, hungerMeter: individual.hungerMeter - decrease}))
-      newAnimals[species] = newSpecies;
+      let newSpecies = this.state.animals[species].map(individual => ({...individual, hungerMeter: Math.max(0, individual.hungerMeter - decrease)}))
+      let newIndividuals = [];
+      for (let individual of this.state.animals[species]) {
+        let meter = individual.hungerMeter - decrease;
+        if (meter > 0) {
+          newIndividuals.push({...individual, hungerMeter: meter});
+        }
+        else {
+          newIndividuals.push({...individual, alive: false})
+        }
+      }
+      newAnimals[species] = newIndividuals;
     }
     this.setState({ animals: newAnimals });
   }
@@ -122,7 +132,7 @@ class Zoo extends Component{
   buyAnimal(species) { 
     if (this.state.money >= this.props.speciesData[species].price) {
       const newAnimals = {...this.state.animals}
-      const newIndividuals = [...this.state.animals[species], {name: species.substr(0, species.length-1), hungerMeter:70, id: uuidv4()}]
+      const newIndividuals = [...this.state.animals[species], {name: species.substr(0, species.length-1), hungerMeter:70, alive: true, id: uuidv4()}]
       newAnimals[species] = newIndividuals;
       let newMoney = this.state.money - this.props.speciesData[species].price;
       //newIncome = this.calculateIncome
