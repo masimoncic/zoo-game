@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import {v4 as uuidv4} from 'uuid';
 import SpeciesContainer from '../animals/SpeciesContainer';
 import ConstructionTop from '../construction/ConstructionTop';
 import './Zoo.css';
 import MainDisplay from './MainDisplay';
-import AnimalContainer from '../animals/IndividualContainer';
+import IndividualContainer from '../animals/IndividualContainer';
 
 
 //add keys
@@ -51,20 +52,21 @@ class Zoo extends Component{
     this.newDay = this.newDay.bind(this);
     this.buyFood = this.buyFood.bind(this);
     this.buyAnimal = this.buyAnimal.bind(this);
+    this.feedAnimal = this.feedAnimal.bind(this);
 
   }
   static defaultProps = {
     //put types in default props, qty and individuals in state
     animalSpecies: {
       tigers: {
-        foodConsumption: 20,
+        foodConsumption: 2,
         guageIncreaseRate: 4,
         guageDecreasePerFeed: 40,
         price: 500,
         value: 100,
       },
       penguines: {
-        foodConsumption: 20,
+        foodConsumption: 6,
         guageIncreaseRate: 4,
         guageDecreasePerFeed: 40,
         price: 1000,
@@ -125,7 +127,7 @@ class Zoo extends Component{
   buyAnimal(species) { 
     if (this.state.money >= this.props.animalSpecies[species].price) {
       const newAnimals = {...this.state.animals}
-      const newIndividuals = [...this.state.animals[species], {name: species.substr(0, species.length-1), hungerMeter:'70'}]
+      const newIndividuals = [...this.state.animals[species], {name: species.substr(0, species.length-1), hungerMeter:'70', id: uuidv4()}]
       newAnimals[species] = newIndividuals;
       let newMoney = this.state.money - this.props.animalSpecies[species].price;
       //newIncome = this.calculateIncome
@@ -135,6 +137,16 @@ class Zoo extends Component{
         //income: newIncome
       })
     }
+  }
+  feedAnimal(individual, species) {
+    const newIndividual = {...individual, hungerMeter: Math.max(individual.hungerMeter - this.props.animalSpecies[species].guageDecreasePerFeed, 0)}
+    const newIndividuals= this.state.animals[species].map(el => (el.id === individual.id ? newIndividual : el))
+    const newAnimals = {...this.state.animals, [species]: newIndividuals};
+    const newFoodQty = this.state.foodQty - this.props.animalSpecies[species].foodConsumption
+    this.setState({
+      animals: newAnimals,
+      foodQty: newFoodQty
+    })
 
   }
   //pass animalTypes to AnimalTypesTop
@@ -142,7 +154,12 @@ class Zoo extends Component{
     const getAnimalSpecies = props => {
       let species = props.match.params.species;
       let individuals = this.state.animals[species];
-      return <AnimalContainer animal={species} individuals={individuals} />
+      return <IndividualContainer 
+        species={species} 
+        individuals={individuals} 
+        feedAnimal={this.feedAnimal}
+        animalSpecies={this.props.animalSpecies}
+      />
     }
     return(
       <div className="Zoo">
