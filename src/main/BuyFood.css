@@ -1,0 +1,31 @@
+.BuyFood .btn{
+  font-size: 0.9rem;
+  padding: 0.2rem;
+  margin-bottom: 0.2rem;
+  width: 90%;
+}
+
+@media (min-width: 768px) {
+  .BuyFood .btn{
+    width: 60%;
+  }
+}
+
+@media (min-width: 992px) {
+  .BuyFood .btn{
+    width: 50%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .BuyFood .btn{
+    font-size: 1rem;
+    width: 40%;
+  }
+}
+
+@media (min-width: 1400px) {
+  .BuyFood .btn{
+    width: 35%
+  }
+}

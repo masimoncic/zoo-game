@@ -1,0 +1,9 @@
+.text-left{
+  text-align: left;
+}
+
+@media (max-width: 992px) {
+  .income-display {
+    margin-top: -4rem;
+  }
+}

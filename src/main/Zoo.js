@@ -42,15 +42,16 @@ class Zoo extends Component{
         chimpanzees: [],
         aligators: [],
       },
-      money: 5000,
+      money: 50000,
       income: 100,
       foodQty: 100,
       foodCost: 200,
     }
-    this.buyAnimal = this.buyAnimal.bind(this);
-    this.setMoney = this.setMoney.bind(this);
-
     this.setIncome = this.setIncome.bind(this);
+    this.newDay = this.newDay.bind(this);
+    this.buyFood = this.buyFood.bind(this);
+    this.buyAnimal = this.buyAnimal.bind(this);
+
   }
   static defaultProps = {
     //put types in default props, qty and individuals in state
@@ -99,19 +100,28 @@ class Zoo extends Component{
       },
     }
   }
-  setMoney() {
+  //methods for multipe components
+  setIncome(){
     this.setState(st => {
-      return { money : st.money + st.income}
+      let newIncome = st.income;
+      return { income: newIncome };
     });
   }
-  calculateIncome(st) {
-    let newIncome = st.income;
-    return { income: newIncome }
+  //methods for MainDisplay
+  newDay() {
+    this.setState(st => {
+      return { money : st.money + st.income, foodCost: Math.floor(st.foodCost * 1.1)}
+    });
   }
-  setIncome(){
-    this.setState(this.calculateIncome);
+  buyFood(num) {
+    let totalCost = this.state.foodCost * num;
+    if (totalCost <= this.state.money) {
+      this.setState(st => {
+        return { money: st.money - totalCost, foodQty: st.foodQty + num };
+      })
+    }
   }
-
+  //mehtods for Animals
   buyAnimal(species) { 
     if (this.state.money >= this.props.animalSpecies[species].price) {
       const newAnimals = {...this.state.animals}
@@ -141,7 +151,9 @@ class Zoo extends Component{
         income={this.state.income} 
         foodQty={this.state.foodQty} 
         foodCost={this.state.foodCost}
-        setMoney={this.setMoney}
+        newDay={this.newDay}
+        buyFood={this.buyFood}
+
         />
         <Route path='/animals' render={() => 
         <SpeciesContainer 

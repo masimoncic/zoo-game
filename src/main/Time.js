@@ -42,7 +42,7 @@ class Time extends Component {
   timer() {
     let time = this.getTime(this.state);
     if (time.hour === 12 && time.peroid === 'a.m.') {
-      this.props.setMoney();
+      this.props.newDay();
     }
     this.setState(time);
   }
@@ -56,7 +56,7 @@ class Time extends Component {
   }
   handleFast() {
     clearInterval(this.intervalId);
-    this.intervalId = setInterval(this.timer, 100)
+    this.intervalId = setInterval(this.timer, 50)
   }
   render() {
     return(

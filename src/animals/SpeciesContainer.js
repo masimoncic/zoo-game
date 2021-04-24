@@ -19,7 +19,7 @@ class SpeciesContainer extends Component{
       /> )
     }
     return(
-      <div className="SpeciesContainer row mb-3">
+      <div className="SpeciesContainer row mb-2">
         <div className='row'>
           {species}
         </div>
