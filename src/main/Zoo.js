@@ -104,9 +104,12 @@ class Zoo extends Component{
   }
   //methods for multipe components
   setIncome(){
-    this.setState(st => {
-      let newIncome = st.income;
-      return { income: newIncome };
+    let newIncome = 0;
+    for (let species in this.state.animals) {
+      newIncome += this.state.animals[species].length * this.props.animalSpecies[species].value;
+    }
+    this.setState({
+      income: newIncome
     });
   }
   //methods for MainDisplay
@@ -134,7 +137,6 @@ class Zoo extends Component{
       this.setState({
         animals: newAnimals,
         money: newMoney,
-        //income: newIncome
       })
     }
   }
@@ -169,6 +171,7 @@ class Zoo extends Component{
         foodQty={this.state.foodQty} 
         foodCost={this.state.foodCost}
         newDay={this.newDay}
+        setIncome={this.setIncome}
         buyFood={this.buyFood}
 
         />

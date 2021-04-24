@@ -41,6 +41,7 @@ class Time extends Component {
   }
   timer() {
     let time = this.getTime(this.state);
+    this.props.setIncome();
     if (time.hour === 12 && time.peroid === 'a.m.') {
       this.props.newDay();
     }
