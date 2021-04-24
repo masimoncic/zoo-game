@@ -12,7 +12,7 @@ class IndividualContainer extends Component{
             <Individual 
             info={individual} 
             species={this.props.species} 
-            foodConsumption={this.props.animalSpecies[this.props.species].foodConsumption}
+            foodConsumption={this.props.speciesData[this.props.species].foodConsumption}
             feedAnimal={this.props.feedAnimal}
 
           />

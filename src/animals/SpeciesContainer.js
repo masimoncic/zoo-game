@@ -14,7 +14,7 @@ class SpeciesContainer extends Component{
       <Species
         species={animal} 
         buyAnimal={this.props.buyAnimal}
-        price={this.props.animalSpecies[animal].price}
+        price={this.props.speciesData[animal].price}
         quantity={this.props.animals[animal].length }
       /> )
     }

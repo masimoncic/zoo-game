@@ -13,28 +13,6 @@ class Zoo extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      /*
-      animals: [
-        {type: 'tiger', individuals: [
-          {name: 'tiger1', hungerMeter: 65}
-        ]},
-        {type: 'penguine', individuals: []},
-        {type: 'elephant', individuals: []},
-        {type: 'panda', individuals: []},
-        {type: 'chimpanzee', individuals: []},
-        {type: 'aligator', individuals: []}
-      ]*/
-  
-      //try to remove 'type'
-      /*
-      animals: {
-        tiger: {type: 'tiger', individuals: [{name: 'tiger', hungerMeter: 70}]},
-        penguine: {type: 'penguine', individuals: []},
-        elephant: {type: 'elephant', individuals: []},
-        panda: {type: 'panda', individuals: []},
-        chimpanzee: {type: 'chimpanzee', individuals: []},
-        aligator: {type: 'aligator', individuals: []}
-      },*/
       animals: {
         tigers: [],
         penguines: [],
@@ -44,11 +22,13 @@ class Zoo extends Component{
         aligators: [],
       },
       money: 50000,
-      income: 100,
+      income: 500,
+      baseIncome: 500,
       foodQty: 100,
       foodCost: 200,
     }
     this.setIncome = this.setIncome.bind(this);
+    this.hungerTick = this.hungerTick.bind(this);
     this.newDay = this.newDay.bind(this);
     this.buyFood = this.buyFood.bind(this);
     this.buyAnimal = this.buyAnimal.bind(this);
@@ -57,62 +37,74 @@ class Zoo extends Component{
   }
   static defaultProps = {
     //put types in default props, qty and individuals in state
-    animalSpecies: {
+    speciesData: {
       tigers: {
         foodConsumption: 2,
-        guageIncreaseRate: 4,
-        guageDecreasePerFeed: 40,
+        guageDecreaseRate: 4,
+        guageIncreasePerFeed: 20,
         price: 500,
         value: 100,
       },
       penguines: {
         foodConsumption: 6,
-        guageIncreaseRate: 4,
-        guageDecreasePerFeed: 40,
+        guageDecreaseRate: 4,
+        guageIncreasePerFeed: 40,
         price: 1000,
         value: 100,
       },
       elephants: {
         foodConsumption: 20,
-        guageIncreaseRate: 4,
-        guageDecreasePerFeed: 40,
+        guageDecreaseRate: 4,
+        guageIncreasePerFeed: 40,
         price: 5000,
         value: 100,
       },
       pandas: {
         foodConsumption: 20,
-        guageIncreaseRate: 4,
-        guageDecreasePerFeed: 40,
+        guageDecreaseRate: 4,
+        guageIncreasePerFeed: 40,
         price: 10000,
         value: 100,
       },
       chimpanzees: {
         foodConsumption: 20,
-        guageIncreaseRate: 4,
-        guageDecreasePerFeed: 40,
+        guageDecreaseRate: 4,
+        guageIncreasePerFeed: 40,
         price: 100,
         value: 100,
       },
       aligators: {
         foodConsumption: 20,
-        guageIncreaseRate: 4,
-        guageDecreasePerFeed: 40,
+        guageDecreaseRate: 4,
+        guageIncreasePerFeed: 40,
         price: 30000,
         value: 100,
       },
     }
   }
   //methods for multipe components
+
+  //methods for MainDisplay
   setIncome(){
     let newIncome = 0;
     for (let species in this.state.animals) {
-      newIncome += this.state.animals[species].length * this.props.animalSpecies[species].value;
+      newIncome += this.state.animals[species].length * this.props.speciesData[species].value;
     }
+    newIncome += this.state.baseIncome;
     this.setState({
       income: newIncome
     });
+  } 
+  hungerTick() {
+    let newAnimals = {
+    };
+    for (let species in this.state.animals) {
+      let decrease = this.props.speciesData[species].guageDecreaseRate;
+      let newSpecies = this.state.animals[species].map(individual => ({...individual, hungerMeter: individual.hungerMeter - decrease}))
+      newAnimals[species] = newSpecies;
+    }
+    this.setState({ animals: newAnimals });
   }
-  //methods for MainDisplay
   newDay() {
     this.setState(st => {
       return { money : st.money + st.income, foodCost: Math.floor(st.foodCost * 1.1)}
@@ -128,11 +120,11 @@ class Zoo extends Component{
   }
   //mehtods for Animals
   buyAnimal(species) { 
-    if (this.state.money >= this.props.animalSpecies[species].price) {
+    if (this.state.money >= this.props.speciesData[species].price) {
       const newAnimals = {...this.state.animals}
-      const newIndividuals = [...this.state.animals[species], {name: species.substr(0, species.length-1), hungerMeter:'70', id: uuidv4()}]
+      const newIndividuals = [...this.state.animals[species], {name: species.substr(0, species.length-1), hungerMeter:70, id: uuidv4()}]
       newAnimals[species] = newIndividuals;
-      let newMoney = this.state.money - this.props.animalSpecies[species].price;
+      let newMoney = this.state.money - this.props.speciesData[species].price;
       //newIncome = this.calculateIncome
       this.setState({
         animals: newAnimals,
@@ -141,10 +133,11 @@ class Zoo extends Component{
     }
   }
   feedAnimal(individual, species) {
-    const newIndividual = {...individual, hungerMeter: Math.max(individual.hungerMeter - this.props.animalSpecies[species].guageDecreasePerFeed, 0)}
+    const newIndividual = {...individual, hungerMeter: Math.min(individual.hungerMeter + this.props.speciesData[species].guageIncreasePerFeed, 100)}
+    
     const newIndividuals= this.state.animals[species].map(el => (el.id === individual.id ? newIndividual : el))
     const newAnimals = {...this.state.animals, [species]: newIndividuals};
-    const newFoodQty = this.state.foodQty - this.props.animalSpecies[species].foodConsumption
+    const newFoodQty = this.state.foodQty - this.props.speciesData[species].foodConsumption
     this.setState({
       animals: newAnimals,
       foodQty: newFoodQty
@@ -160,7 +153,7 @@ class Zoo extends Component{
         species={species} 
         individuals={individuals} 
         feedAnimal={this.feedAnimal}
-        animalSpecies={this.props.animalSpecies}
+        speciesData={this.props.speciesData}
       />
     }
     return(
@@ -172,6 +165,7 @@ class Zoo extends Component{
         foodCost={this.state.foodCost}
         newDay={this.newDay}
         setIncome={this.setIncome}
+        hungerTick={this.hungerTick}
         buyFood={this.buyFood}
 
         />
@@ -179,7 +173,7 @@ class Zoo extends Component{
         <SpeciesContainer 
           animals={this.state.animals}
           buyAnimal={this.buyAnimal}
-          animalSpecies = {this.props.animalSpecies}
+          speciesData = {this.props.speciesData}
         />} />
         <Route path='/animals/:species' render={getAnimalSpecies} />
         <Route path='/construction' render={() => <ConstructionTop />} />

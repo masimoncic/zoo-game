@@ -12,7 +12,11 @@ class MainDisplay extends Component{
         <div className='row'>
           <div className='col-3'>
             <div className='col col-lg-8'>
-              <Time newDay = {this.props.newDay} setIncome={this.props.setIncome}/>
+              <Time 
+                newDay = {this.props.newDay} 
+                setIncome={this.props.setIncome}
+                hungerTick={this.props.hungerTick}
+              />
             </div>
           </div>
             {/*
