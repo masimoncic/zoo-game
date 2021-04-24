@@ -1,3 +1,18 @@
 .Individual{
   border: 1px solid black;
 }
+
+.imgDisplay {
+  height: 5rem;
+}
+
+.imgDisplay button {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  width: 80%
+}
+
+.Individual img{
+  height: 5rem;
+  max-width: 100%;
+}
