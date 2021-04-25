@@ -5,47 +5,60 @@ import './Individual.css';
 class Individual extends Component{
   constructor(props) {
     super(props)
+    this.state = {
+      rename: false
+    }
     this.handleFeed = this.handleFeed.bind(this);
+  }
+  componentDidUpdate() {
+    console.log(!this.state.rename);
   }
   handleFeed() {
     this.props.feedAnimal(this.props.info, this.props.species);
   }
   render() {
-    const meter = (alive) => {
-      if (alive){
-        return (<span>{this.props.info.hungerMeter}</span>);
-      } else {
-        return(<span>Dead</span>)
-      }
-    }
-    const imgDisplay = (alive) => {
+    const living = (alive) => {
       if (alive) {
-        return (<img src={this.props.imgUrl} className='imgDisplay'/>)
+        return(
+          <div className='alive'>
+            {renameDisplay(this.props.rename)}
+            <div className='individual-food-meter'>
+              <div>{this.props.info.hungerMeter}</div>
+              <button className='btn btn-info' onClick={this.handleFeed}>Feed ({this.props.foodConsumption})</button>
+            </div>
+          </div>
+        )
       } else {
         return (
-          <div className='imgDisplay'>
-            <button className='btn btn-warning'>Remove Body</button>
+          <div className='dead'>
+            <h4>Dead</h4>
+            <div>
+              <button className='btn btn-warning'>Remove Body</button>
+            </div>
           </div>
         )
       }
     }
+    const renameDisplay = (rename) => {
+      if (!rename) {
+        return (
+          <div className='renameDisplay'>
+            <div className='changeIndividualName'>
+              <button className='btn btn-sm btn-secondary'>Rename</button>
+            </div>
+            <div className='imgDisplay'>
+              <img src={this.props.imgUrl} className='imgDisplay' alt={`${this.props.species} picture`}/>
+            </div>
+         </div> 
+        )
+      }
+    }
     return(
-      <div className="Individual my-2">
-        <div className='row'>
-          <div className='individualName'>
-            <span>{this.props.info.name}</span>
-          </div>
-          <div className='changeIndividualName my-1'>
-            <button className='btn btn-sm btn-secondary'>Rename</button>
-          </div>
+      <div className="Individual my-1">
+        <div className='individual-name'>
+          <h6>{this.props.info.name}</h6>
         </div>
-        <div className='individualImg'>
-          {imgDisplay(this.props.info.alive)}
-        </div>
-        <div className='individualFoodMeter'>
-          {meter(this.props.info.alive)}
-        </div> 
-        <button className='btn btn-info mb-1' onClick={this.handleFeed}>Feed ({this.props.foodConsumption})</button>
+        {living(this.props.info.alive)}
       </div>
     )
   }

@@ -1,18 +1,37 @@
+
 .Individual{
   border: 1px solid black;
 }
 
-.imgDisplay {
-  height: 5rem;
+.individual-name {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-.imgDisplay button {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  width: 80%
+.alive{
+  height: 13rem;
 }
 
-.Individual img{
+.alive img{
+  margin-top: .5rem;
+  margin-bottom: .5rem;
   height: 5rem;
   max-width: 100%;
 }
+
+.individual-food-meter button{
+  font-size: 0.9rem;
+  padding: 0.2rem, 0.5rem;
+}
+
+.dead{
+  height: 13rem;
+}
+
+.dead h4{
+  color: red;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+
