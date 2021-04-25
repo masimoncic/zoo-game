@@ -9,13 +9,13 @@
 }
 
 .alive{
-  height: 13rem;
+  height: 13.6rem;
 }
 
 .alive img{
   margin-top: .5rem;
   margin-bottom: .5rem;
-  height: 5rem;
+  height: 5.6rem;
   max-width: 100%;
 }
 
@@ -50,8 +50,22 @@
   margin-top: 0.5rem;
 }
 
+.renaming input{
+ width: 75%
+}
+
+.rename-button{
+  padding: 0.2rem 0rem;
+}
+
+.rename-button button{
+  font-size: 0.9rem;
+  width: 75%;
+  padding: 0.2rem;
+}
+
 .dead{
-  height: 13rem;
+  height: 13.6rem;
 }
 
 .dead h4{
@@ -61,3 +75,29 @@
 }
 
 
+@media (min-width: 768px) {
+  .rename-button button{
+    width: 95%;
+  }
+  .renaming input{
+    width: 95%
+   }
+}
+
+@media (min-width: 992px) {
+  .rename-button button{
+    width: 75%;
+  }
+  .renaming input{
+    width: 85%
+   }
+}
+
+@media (min-width: 1200px) {
+  .rename-button button{
+    width: 65%;
+  }
+  .renaming input{
+    width: 75%
+   }
+}

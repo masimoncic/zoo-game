@@ -14,6 +14,7 @@ class IndividualContainer extends Component{
             species={this.props.species} 
             foodConsumption={this.props.speciesData[this.props.species].foodConsumption}
             feedAnimal={this.props.feedAnimal}
+            renameAnimal={this.props.renameAnimal}
             imgUrl={this.props.speciesData[this.props.species].imgUrl}
           />
           </div>

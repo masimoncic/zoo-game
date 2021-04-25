@@ -6,11 +6,14 @@ class Individual extends Component{
   constructor(props) {
     super(props)
     this.state = {
+      newName : '',
       rename: false
     }
     this.handleRename = this.handleRename.bind(this);
     this.handleFeed = this.handleFeed.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleNameSubmit = this.handleNameSubmit.bind(this);
   }
   handleRename() {
     this.setState({
@@ -19,6 +22,20 @@ class Individual extends Component{
   }
   handleCancel() {
     this.setState({
+      newName: '',
+      rename: false
+    })
+  }
+  handleChange(evt) {
+    this.setState({
+      [evt.target.name]: evt.target.value
+    });
+  }
+  handleNameSubmit(evt) {
+    evt.preventDefault();
+    this.props.renameAnimal(this.props.info, this.props.species, this.state.newName)
+    this.setState({
+      newName: '',
       rename: false
     })
   }
@@ -56,9 +73,16 @@ class Individual extends Component{
       if (this.state.rename) {
         return (
           <div className='renaming'>
-            <input></input>
-            <button>Confirm</button>
-            <button className='btn btn-warning' onClick={this.handleCancel}>Cancel</button>
+            <form onSubmit={this.handleNameSubmit}>
+              <label htmlFor='newName' className='form-label'>Enter Name</label>
+              <input name='newName' value={this.state.newName} onChange={this.handleChange}/>
+              <div className='rename-button'>
+                <button className='btn btn-success'>Confirm</button>
+              </div>
+            </form>
+            <div className='rename-button'>
+              <button className='btn btn-warning cancel-btn' onClick={this.handleCancel}>Cancel</button>
+            </div>
           </div>  
         )
       } else {

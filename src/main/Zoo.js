@@ -33,6 +33,7 @@ class Zoo extends Component{
     this.buyFood = this.buyFood.bind(this);
     this.buyAnimal = this.buyAnimal.bind(this);
     this.feedAnimal = this.feedAnimal.bind(this);
+    this.renameAnimal = this.renameAnimal.bind(this);
     this.countLiving = this.countLiving.bind(this);
     this.feedAll = this.feedAll.bind(this);
   }
@@ -41,7 +42,7 @@ class Zoo extends Component{
     speciesData: {
       chimpanzees: {
         foodConsumption: 20,
-        guageDecreaseRate: 4,
+        guageDecreaseRate: 1,
         guageIncreasePerFeed: 40,
         price: 100,
         value: 100,
@@ -148,19 +149,6 @@ class Zoo extends Component{
       })
     }
   }
-  feedAnimal(individual, species) {
-    const foodConsumed = this.props.speciesData[species].foodConsumption;
-    if (this.state.foodQty >= foodConsumed && individual.alive) {
-      const newFoodQty = this.state.foodQty - this.props.speciesData[species].foodConsumption
-      const newIndividual = {...individual, hungerMeter: Math.min(individual.hungerMeter + this.props.speciesData[species].guageIncreasePerFeed, 100)}
-      const newIndividuals= this.state.animals[species].map(el => (el.id === individual.id ? newIndividual : el))
-      const newAnimals = {...this.state.animals, [species]: newIndividuals};
-      this.setState({
-        animals: newAnimals,
-        foodQty: newFoodQty
-      })
-    }
-  }
   countLiving(species) {
     let living = 0;
     for (let individual of this.state.animals[species]) {
@@ -185,16 +173,40 @@ class Zoo extends Component{
       })
     }
   }
+  feedAnimal(individual, species) {
+    const foodConsumed = this.props.speciesData[species].foodConsumption;
+    if (this.state.foodQty >= foodConsumed && individual.alive) {
+      const newFoodQty = this.state.foodQty - this.props.speciesData[species].foodConsumption
+      const newIndividual = {...individual, hungerMeter: Math.min(individual.hungerMeter + this.props.speciesData[species].guageIncreasePerFeed, 100)}
+      const newIndividuals= this.state.animals[species].map(el => (el.id === individual.id ? newIndividual : el))
+      const newAnimals = {...this.state.animals, [species]: newIndividuals};
+      this.setState({
+        animals: newAnimals,
+        foodQty: newFoodQty
+      })
+    }
+  }
+  renameAnimal(individual, species, newName) {
+    const newIndividual = {...individual, name: newName}
+    const newIndividuals = this.state.animals[species].map(el => (el.id === individual.id? newIndividual : el));
+    const newAnimals = {...this.state.animals, [species]: newIndividuals};
+    this.setState({
+      animals: newAnimals
+    })
+  }
+
   //pass animalTypes to AnimalTypesTop
   render() {
     const getAnimalSpecies = props => {
       let species = props.match.params.species;
       let individuals = this.state.animals[species];
       return <IndividualContainer 
+        speciesData={this.props.speciesData}
         species={species} 
         individuals={individuals} 
         feedAnimal={this.feedAnimal}
-        speciesData={this.props.speciesData}
+        renameAnimal={this.renameAnimal}
+
       />
     }
     return(
