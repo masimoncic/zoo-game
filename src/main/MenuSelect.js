@@ -6,7 +6,7 @@ import './MenuSelect.css';
 class MenuSelect extends Component{
   render() {
     return(
-        <div className="MenuSelect mb-3 row">
+        <div className="MenuSelect mb-1 row">
           <div className='col py-2'>
             <Link to='/animals'>Animals</Link>
           </div>
