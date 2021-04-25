@@ -7,9 +7,13 @@ class Species extends Component {
   constructor(props) {
     super(props);
     this.handleBuyAnimal = this.handleBuyAnimal.bind(this);
+    this.handleFeedAll = this.handleFeedAll.bind(this);
   }
   handleBuyAnimal() {
     this.props.buyAnimal(this.props.species);
+  }
+  handleFeedAll() {
+    this.props.feedAll(this.props.species)
   }
   render() {
     return(
@@ -22,7 +26,7 @@ class Species extends Component {
           <button className='buy-btn btn btn-success' onClick={this.handleBuyAnimal}>Buy ${this.props.price}</button>
         </div>
         <div className='my-2 row col-lg-8 offset-lg-2 col-10 offset-1'>
-          <button className='feed-btn btn btn-info feed-btn'>Feed all</button>
+          <button className='feed-btn btn btn-info feed-btn' onClick={this.handleFeedAll}>Feed all</button>
         </div>
       </div>
     )

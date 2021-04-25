@@ -14,12 +14,12 @@ class Zoo extends Component{
     super(props);
     this.state = {
       animals: {
+        chimpanzees: [],
         tigers: [],
         penguines: [],
-        elephants: [],
-        pandas: [],
-        chimpanzees: [],
         aligators: [],
+        pandas: [],
+        elephants: [],
       },
       money: 50000,
       income: 500,
@@ -33,11 +33,20 @@ class Zoo extends Component{
     this.buyFood = this.buyFood.bind(this);
     this.buyAnimal = this.buyAnimal.bind(this);
     this.feedAnimal = this.feedAnimal.bind(this);
-
+    this.countLiving = this.countLiving.bind(this);
+    this.feedAll = this.feedAll.bind(this);
   }
   static defaultProps = {
     //put types in default props, qty and individuals in state
     speciesData: {
+      chimpanzees: {
+        foodConsumption: 20,
+        guageDecreaseRate: 4,
+        guageIncreasePerFeed: 40,
+        price: 100,
+        value: 100,
+        imgUrl: 'https://images.unsplash.com/photo-1594068304148-3e33049a2651?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+      },
       tigers: {
         foodConsumption: 2,
         guageDecreaseRate: 4,
@@ -54,13 +63,13 @@ class Zoo extends Component{
         value: 100,
         imgUrl: 'https://images.unsplash.com/photo-1518734040184-adad8323b124?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1889&q=80',
       },
-      elephants: {
+      aligators: {
         foodConsumption: 20,
         guageDecreaseRate: 4,
         guageIncreasePerFeed: 40,
-        price: 5000,
+        price: 30000,
         value: 100,
-        imgUrl: 'https://images.unsplash.com/photo-1581852017103-68ac65514cf7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1053&q=80',
+        imgUrl: 'https://images.unsplash.com/photo-1520542099817-0d19524eccca?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80',
       },
       pandas: {
         foodConsumption: 20,
@@ -70,21 +79,13 @@ class Zoo extends Component{
         value: 100,
         imgUrl: 'https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80',
       },
-      chimpanzees: {
+      elephants: {
         foodConsumption: 20,
         guageDecreaseRate: 4,
         guageIncreasePerFeed: 40,
-        price: 100,
+        price: 5000,
         value: 100,
-        imgUrl: 'https://images.unsplash.com/photo-1594068304148-3e33049a2651?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-      },
-      aligators: {
-        foodConsumption: 20,
-        guageDecreaseRate: 4,
-        guageIncreasePerFeed: 40,
-        price: 30000,
-        value: 100,
-        imgUrl: 'https://images.unsplash.com/photo-1520542099817-0d19524eccca?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80',
+        imgUrl: 'https://images.unsplash.com/photo-1581852017103-68ac65514cf7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1053&q=80',
       },
     }
   }
@@ -106,7 +107,6 @@ class Zoo extends Component{
     };
     for (let species in this.state.animals) {
       let decrease = this.props.speciesData[species].guageDecreaseRate;
-      let newSpecies = this.state.animals[species].map(individual => ({...individual, hungerMeter: Math.max(0, individual.hungerMeter - decrease)}))
       let newIndividuals = [];
       for (let individual of this.state.animals[species]) {
         let meter = individual.hungerMeter - decrease;
@@ -149,16 +149,41 @@ class Zoo extends Component{
     }
   }
   feedAnimal(individual, species) {
-    const newIndividual = {...individual, hungerMeter: Math.min(individual.hungerMeter + this.props.speciesData[species].guageIncreasePerFeed, 100)}
-    
-    const newIndividuals= this.state.animals[species].map(el => (el.id === individual.id ? newIndividual : el))
-    const newAnimals = {...this.state.animals, [species]: newIndividuals};
-    const newFoodQty = this.state.foodQty - this.props.speciesData[species].foodConsumption
-    this.setState({
-      animals: newAnimals,
-      foodQty: newFoodQty
-    })
-
+    const foodConsumed = this.props.speciesData[species].foodConsumption;
+    if (this.state.foodQty >= foodConsumed && individual.alive) {
+      const newFoodQty = this.state.foodQty - this.props.speciesData[species].foodConsumption
+      const newIndividual = {...individual, hungerMeter: Math.min(individual.hungerMeter + this.props.speciesData[species].guageIncreasePerFeed, 100)}
+      const newIndividuals= this.state.animals[species].map(el => (el.id === individual.id ? newIndividual : el))
+      const newAnimals = {...this.state.animals, [species]: newIndividuals};
+      this.setState({
+        animals: newAnimals,
+        foodQty: newFoodQty
+      })
+    }
+  }
+  countLiving(species) {
+    let living = 0;
+    for (let individual of this.state.animals[species]) {
+      if (individual.alive) {
+        living ++;
+      }
+    }
+    return living;
+  }
+  feedAll(species) {
+    const living = this.countLiving(species);
+    const foodConsumed = this.props.speciesData[species].foodConsumption * living;
+    if (this.state.foodQty >= foodConsumed) {
+      const newFoodQty = this.state.foodQty - foodConsumed;
+      const newIndividuals = this.state.animals[species].map(el => (
+        el.alive ? {...el, hungerMeter: Math.min(el.hungerMeter + this.props.speciesData[species].guageIncreasePerFeed, 100)} : el
+      ));
+      const newAnimals = {...this.state.animals, [species]: newIndividuals};
+      this.setState({
+        animals: newAnimals,
+        foodQty: newFoodQty
+      })
+    }
   }
   //pass animalTypes to AnimalTypesTop
   render() {
@@ -183,12 +208,12 @@ class Zoo extends Component{
         setIncome={this.setIncome}
         hungerTick={this.hungerTick}
         buyFood={this.buyFood}
-
         />
         <Route path='/animals' render={() => 
         <SpeciesContainer 
           animals={this.state.animals}
           buyAnimal={this.buyAnimal}
+          feedAll={this.feedAll}
           speciesData = {this.props.speciesData}
         />} />
         <Route path='/animals/:species' render={getAnimalSpecies} />

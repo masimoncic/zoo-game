@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Species from './Species';
 import './SpeciesContainer.css';
+import {v4 as uuidv4} from 'uuid';
 
 
 class SpeciesContainer extends Component{
@@ -16,6 +17,8 @@ class SpeciesContainer extends Component{
         buyAnimal={this.props.buyAnimal}
         price={this.props.speciesData[animal].price}
         quantity={this.props.animals[animal].length }
+        feedAll={this.props.feedAll}
+        key={uuidv4()}
       /> )
     }
     return(

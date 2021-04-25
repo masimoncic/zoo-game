@@ -8,7 +8,7 @@ class IndividualContainer extends Component{
     return(
       <div className="IndividualContainer row mb-2">
         {this.props.individuals.map(individual =>
-          <div className='col-4 col-md-2'>
+          <div key={individual.id} className='col-4 col-md-2'>
             <Individual 
             info={individual} 
             species={this.props.species} 
