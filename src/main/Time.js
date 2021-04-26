@@ -50,15 +50,15 @@ class Time extends Component {
   }
   handleSlow() {
     clearInterval(this.intervalId);
-    this.intervalId = setInterval(this.timer, 800)
+    this.intervalId = setInterval(this.timer, 2000)
   }
   handleMedium() {
     clearInterval(this.intervalId);
-    this.intervalId = setInterval(this.timer, 400)
+    this.intervalId = setInterval(this.timer, 800)
   }
   handleFast() {
     clearInterval(this.intervalId);
-    this.intervalId = setInterval(this.timer, 50)
+    this.intervalId = setInterval(this.timer, 100)
   }
   render() {
     return(
