@@ -23,10 +23,10 @@ class Species extends Component {
           <span>Owned: {this.props.quantity}</span>
         </div>
         <div className='row col-lg-8 offset-lg-2 col-10 offset-1'>
-          <button className='buy-btn btn btn-success' onClick={this.handleBuyAnimal}>Buy ${this.props.price}</button>
+          <Link to={`/animals/${this.props.species}`} className='buy-btn btn btn-success' onClick={this.handleBuyAnimal}>Buy ${this.props.price}</Link>
         </div>
         <div className='my-2 row col-lg-8 offset-lg-2 col-10 offset-1'>
-          <button className='feed-btn btn btn-info feed-btn' onClick={this.handleFeedAll}>Feed all</button>
+          <Link to={`/animals/${this.props.species}`} className='feed-btn btn btn-info feed-btn' onClick={this.handleFeedAll}>Feed all</Link>
         </div>
       </div>
     )
